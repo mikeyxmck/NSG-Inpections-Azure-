@@ -26,8 +26,6 @@ In this tutorial, we observe various network traffic to and from Azure Virtual M
 - Observe The ICMP Traffic
 - Observe the SSH Traffic
 - Observe the DHCP Traffic
-- Observe the DNS Traffic
-- Observe the RDP Traffic
 
 <h2>Actions and Observations</h2>
 
@@ -72,12 +70,37 @@ In this tutorial, we observe various network traffic to and from Azure Virtual M
   
 6)Once inside Wireshark, filter for ICMP Traffic only, and retrieve the Private IP Address from the Linux VM (VM2) and ping it from withins Windows VM (VM1) using the Command Prompt Application.
 </p>
+<p>
+<img src="https://i.imgur.com/4vNJzP9.png" "80%" width="80%" alt="Disk Sanitization Steps"/>
+  <img src="https://i.imgur.com/AwRM30c.png" "50%" width="50%" alt="Disk Sanitization Steps"/>
+   <img src="https://i.imgur.com/hffwmOo.png" "50%" width="50%" alt="Disk Sanitization Steps"/>
+</p>
+
+<p>
+  7)Now we are going to mess around with the Network Secruity Groups inside the VMS, to test this we are going to go back to Command Prompt inside of VM1 and ping VM2 nonstop by typing 'ping 10.0.0.5 -t'.
+  
+  8) Next, we will go into VM2's NSG (Network Security Group) and disable incoming inbound (ICMP) Traffic. click to add a new inbound rule and set the Source and Destination to 'Any', then change the Protocol to ICMP and change the Action to Deny any incoming ICMP pings. If done correctly the ping should be timing out!
+
+9) Next you will need to go back to VM2's NSG and reallow the ping and observe to see if it's pinging again inside of VM1's Wireshark/Command Prompt. Once you see that it's working again, stop the ping activity.
+</p>
 <br />
 
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/9cpnWEr.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+  
 </p>
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+10) Go back to wireshark and filter for SSH traffic only, then go into your command prompt and type 'ssh labuser@10.0.0.5' you should see the the traffic appear on both Wireshark and Command Prompt. Observe the traffic by using command prompts like, 'id', 'uname -a' 'pwd' once you are done with that, stop the traffic for SSH by typing 'exit' and pressing 'Enter.'
+</p>
+
+<p>
+ <img src="https://i.imgur.com/smt7TO7.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
+</p>
+
+<p>
+  11) The Next traffic will be observing is the DHCP Traffic, go into wireshark and change the fliter to DHCP. Then go into the Command Prompt and try changing the IP address by entering the 'ipconfig/renew' as the command.
+
+
+  There you have it! We have looked through the Network Security Groups and have messed around with some of the command prompts and saw how the traffic was moving through each prompt! Make sure to clean up the lab and disconnect from your Virtual Machine!
 </p>
 <br />
